@@ -1,0 +1,21 @@
+{
+  "description": "v20-interspersed seed-0 TEMPO->HRRR evaluation on the 1,227-scan test set (three one-month blocks: Jul 2024, Feb 2025, Oct 2025). Reference values from the original diurnal_control_intersp.py run on az-ms (weights/tempo/diurnal_control.json). Paper Fig. 5a: primary 0.45/0.48/0.72, scan-hour-conditioned 0.40/0.45/0.56, clock 0.22/0.16/0.63.",
+  "run": "20260720_193611_v20_intersp_s0",
+  "n_test_files": 1227,
+  "skipped_patches_offhour": 0,
+  "network_fp32": {
+    "r_anom_u10": 0.448474,
+    "r_anom_v10": 0.47755,
+    "r_anom_pblh": 0.715021
+  },
+  "clock_baseline": {
+    "r_anom_u10": 0.219163,
+    "r_anom_v10": 0.164717,
+    "r_anom_pblh": 0.631002
+  },
+  "network_hourcond": {
+    "r_anom_u10": 0.404079,
+    "r_anom_v10": 0.45491,
+    "r_anom_pblh": 0.562331
+  }
+}

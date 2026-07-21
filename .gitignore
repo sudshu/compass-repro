@@ -1,7 +1,14 @@
-# Large data: the smoke subset IS tracked (Git LFS or release asset);
-# the full extraction is distributed via Zenodo, never committed.
+# Bulk data is distributed via Zenodo (full sets) or GitHub release assets
+# (smoke subset) — never committed to git history.
 data/geoscf/eval_full/
+data/geoscf/eval_subset/
+data/tempo/eval_test/
 results/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Large binary stats/climatology + weights: committed deliberately (small,
+# required for any run) — listed here as a reminder of what IS tracked:
+#   weights/*/  (30–67 MB per checkpoint)
+#   data/*/stats/  (4–40 MB)
