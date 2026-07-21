@@ -1,0 +1,1 @@
+{"loss": 0.711, "r_anom_u10": 0.4485, "r_anom_v10": 0.4775, "r_anom_pblh": 0.7150, "note": "from diurnal_control_intersp network_fp32 on best.pt (ep34); seed stopped at ep40 so no native test_metrics"}

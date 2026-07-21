@@ -1,0 +1,45 @@
+{
+  "run": "20260720_193611_v20_intersp_s0",
+  "dataset": "v9",
+  "hour_counts": {
+    "0": 541,
+    "1": 245,
+    "2": 9,
+    "10": 45,
+    "11": 403,
+    "12": 773,
+    "13": 1163,
+    "14": 955,
+    "15": 835,
+    "16": 795,
+    "17": 866,
+    "18": 851,
+    "19": 875,
+    "20": 819,
+    "21": 830,
+    "22": 872,
+    "23": 921
+  },
+  "skipped_patches_offhour": 0,
+  "clock_variance_share_note": "variance of the hour lookup across usable hours, per target, in normalised-anomaly units (target variance ~1 by construction)",
+  "clock_variance": {
+    "r_anom_u10": 0.05714575946331024,
+    "r_anom_v10": 0.035874143242836,
+    "r_anom_pblh": 0.5709643363952637
+  },
+  "network_fp32": {
+    "r_anom_u10": 0.4484743287230467,
+    "r_anom_v10": 0.4775499775521941,
+    "r_anom_pblh": 0.7150206289121083
+  },
+  "clock_baseline": {
+    "r_anom_u10": 0.21916320969580444,
+    "r_anom_v10": 0.164716878615799,
+    "r_anom_pblh": 0.6310020515864546
+  },
+  "network_hourcond": {
+    "r_anom_u10": 0.4040785910888248,
+    "r_anom_v10": 0.45490955846843784,
+    "r_anom_pblh": 0.5623305023877652
+  }
+}
