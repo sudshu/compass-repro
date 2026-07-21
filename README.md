@@ -88,8 +88,8 @@ expected/            reference numbers the run scripts check against
 
 | System | Result verified | Status |
 |---|---|---|
-| GEOS-CF blocked (headline) | v500 ACC 0.81 vs persistence 0.45 | **working** (seed 42 shipped; s43/s44 via Zenodo) |
-| TEMPO → HRRR | 0.45/0.48/0.72 | in preparation |
+| GEOS-CF blocked (headline) | all 5 targets to 4 decimals (v500 0.8067; paper 0.81 vs persistence 0.45) | **validated** (738 snapshots, seed 42; s43/s44 via Zenodo) |
+| TEMPO → HRRR (Fig. 5a) | all 9 numbers to 4 decimals: network 0.4485/0.4775/0.7150, clock 0.2192/0.1647/0.6310, conditioned 0.4041/0.4549/0.5623 | **validated** (1,227 test scans; `scripts/evaluate_tempo.py`) |
 | CAMS winner maps / tracer partition | lifetime partition | in preparation |
 | Water-vapour control | — | in preparation |
 | WRF-Chem plume control | held-out-source generalisation | in preparation |

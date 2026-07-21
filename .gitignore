@@ -3,6 +3,7 @@
 data/geoscf/eval_full/
 data/geoscf/eval_subset/
 data/tempo/eval_test/
+data/tempo/stats/hour_lookup.npz   # 104 MB > GitHub's 100 MB limit -> Zenodo
 results/
 __pycache__/
 *.pyc
