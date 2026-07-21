@@ -1,0 +1,7 @@
+# Large data: the smoke subset IS tracked (Git LFS or release asset);
+# the full extraction is distributed via Zenodo, never committed.
+data/geoscf/eval_full/
+results/
+__pycache__/
+*.pyc
+.DS_Store

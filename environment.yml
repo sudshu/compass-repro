@@ -1,0 +1,17 @@
+# COMPASS reproducibility environment.
+# Works on linux-64 (CUDA picked up automatically by the PyTorch conda/pip build)
+# and osx-arm64 (Apple-Silicon MPS backend, built into the standard PyTorch wheel).
+#
+# Core (numbers): torch + numpy only. Plotting (figures): matplotlib + cartopy.
+name: compass-repro
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy>=1.24
+  - pytorch>=2.1          # conda-forge cpu/cuda variant; on macOS this includes MPS
+  # --- maintainer-side extraction only (reviewers do not need it) ---
+  - netcdf4
+  # --- figures (optional; comment out for the core-only env) ---
+  - matplotlib
+  - cartopy

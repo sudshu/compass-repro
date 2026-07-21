@@ -1,0 +1,27 @@
+{
+  "data_root": "transfer_data/geos_cf_smoke",
+  "stats_path": "transfer_data/geos_cf_smoke/stats_geos_cf.json",
+  "clim_path": "transfer_data/geos_cf_smoke/clim_train.npz",
+  "target_mode": "multi_level",
+  "gas_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "use_surface_channels": true,
+  "patches_per_ts": 50,
+  "batch_size": 32,
+  "num_workers": 4,
+  "epochs": 100,
+  "lr": 0.0003,
+  "weight_decay": 0.0001,
+  "warmup_epochs": 5,
+  "base_channels": 48,
+  "depth": 4,
+  "dropout_rate": 0.05,
+  "amp": true,
+  "seed": 42,
+  "run_name": "fresh495_anom_s42",
+  "gpu": 0
+}
