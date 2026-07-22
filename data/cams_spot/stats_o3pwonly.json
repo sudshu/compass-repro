@@ -1,0 +1,32 @@
+{
+  "gas_keys": [
+    "o3pw"
+  ],
+  "x_mean_col": [
+    -7.59284500057759e-18
+  ],
+  "x_std_col": [
+    2.189331512590504e-08
+  ],
+  "x_mean": [
+    -7.59284500057759e-18
+  ],
+  "x_std": [
+    2.189331512590504e-08
+  ],
+  "y_mean": [
+    0.09004101402579968,
+    0.2096550979436159
+  ],
+  "y_std": [
+    5.629396951766108,
+    4.7378485730174935
+  ],
+  "source_note": "single-species o3pw; input stats from 9 2019 train files; wind/dyn target stats copied from stats_cams/stats_dynamics",
+  "x_mean_sfc": [
+    -7.59284500057759e-18
+  ],
+  "x_std_sfc": [
+    2.189331512590504e-08
+  ]
+}

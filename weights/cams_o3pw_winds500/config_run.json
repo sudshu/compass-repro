@@ -1,0 +1,28 @@
+{
+  "run_name": "cams_winds500_o3pw_only",
+  "preproc_dir": "/mnt/data3/pandeysu/ML_traning/cams_global_0p75/preprocessed",
+  "stats_path": "/mnt/data3/pandeysu/ML_traning/cams_global_0p75/preprocessed/stats_o3pwonly.json",
+  "hgt_path": "/mnt/data3/pandeysu/ML_traning/cams_global_0p75/preprocessed/static_hgt.nc",
+  "year": 2019,
+  "gas_indices": [
+    0
+  ],
+  "use_surface_channels": false,
+  "patches_per_ts": 50,
+  "batch_size": 64,
+  "num_workers": 4,
+  "epochs": 60,
+  "lr": 0.0003,
+  "weight_decay": 0.0001,
+  "warmup_epochs": 3,
+  "grad_clip": 1.0,
+  "patience": 12,
+  "base_channels": 64,
+  "depth": 4,
+  "dropout_rate": 0.0,
+  "amp": true,
+  "seed": 42,
+  "target_mode": "winds_500",
+  "dynamics_stats_path": "/mnt/data3/pandeysu/ML_traning/cams_global_0p75/preprocessed/stats_dynamics.json",
+  "single_species_tag": "o3pw"
+}

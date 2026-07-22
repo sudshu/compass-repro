@@ -15,3 +15,4 @@ __pycache__/
 #   data/*/stats/  (4–40 MB)
 data/winner/geoscf/rmaps_*.npz
 data/winner/cams/rmaps_*.npz
+data/cams_spot/cams_spot_o3pw_*.npz
