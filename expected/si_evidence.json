@@ -1,0 +1,45 @@
+{
+  "description": "SI-controls evidence verification references, computed from the released result files. Manuscript claims: WV \u2014 trace gases lead 78% of land (PBLH), WV leads 84% of PBLH ocean area, 81% of land for ws10 (75% global, 73% ocean); WRF-Chem \u2014 held-out sources at training-source skill, wind-speed skill invariant over 0.01x-1000x rescaling with a collapsing fixed-magnitude counterfactual; virtual stations \u2014 station-mean single-site PBLH ACC 0.54.",
+  "wv": {
+    "pblh_land_tracegas_lead": 0.777049,
+    "pblh_ocean_wv_lead": 0.836699,
+    "ws10_land_wv_lead": 0.812574,
+    "ws10_global_wv_lead": 0.751386,
+    "ws10_ocean_wv_lead": 0.727296,
+    "ws500_global_wv_lead": 0.969928
+  },
+  "wrf": {
+    "train_WSPD10": 0.324577,
+    "held_WSPD10": 0.335815,
+    "train_PBLH": 0.29922,
+    "held_PBLH": 0.274211,
+    "floor_WSPD10": 0.053654,
+    "floor_PBLH": 0.023328,
+    "aug_alpha_WSPD10": {
+      "alpha_0.01": 0.2555866290180901,
+      "alpha_0.1": 0.30613974741659045,
+      "alpha_10.0": 0.3021633954570242,
+      "alpha_100.0": 0.29426611182366164,
+      "alpha_1000.0": 0.29469214661687965
+    },
+    "fix_alpha_WSPD10": {
+      "alpha_0.01": 0.03644423478358172,
+      "alpha_0.1": 0.2287083014205599,
+      "alpha_10.0": 0.27896576036699233,
+      "alpha_100.0": 0.24622219837908638,
+      "alpha_1000.0": 0.23010979502956747
+    },
+    "claims": {
+      "held_at_training_skill": true,
+      "aug_invariant": true,
+      "fix_collapses_low_alpha": true,
+      "above_floor": true
+    }
+  },
+  "insitu": {
+    "n_stations": 7,
+    "station_mean_pblh_acc": 0.536601,
+    "station_mean_u10_acc": 0.283411,
+    "station_mean_v10_acc": 0.323121
+  }
+}
