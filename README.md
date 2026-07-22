@@ -104,8 +104,8 @@ expected/            reference numbers the run scripts check against
 | Water-vapour control (Suppl. Fig. S6) | all lead shares exact (trace gases 78% of PBLH land; WV 84% ocean, 81% ws10 land) | **validated** (evidence tier: `scripts/evaluate_si_evidence.py`) |
 | WRF-Chem plume control (Suppl. Fig. S7) | held-out at training skill; 0.01x–1000x invariance; fixed-magnitude collapse; floors | **validated** (evidence tier) |
 | Virtual-station analysis (Suppl. Fig. S10) | station-mean PBLH ACC 0.5366 → 0.54 | **validated** (evidence tier) |
-| TEMPO interspersed mask-only / no-cloud controls (Suppl. Fig. S8) | primary 0.45/0.43/0.77, no-cloud 0.39/0.39/0.70, mask-only | validation running (`scripts/evaluate_tempo_controls.py`) |
-| CAMS single-species spot check (winner-map provenance) | one model re-scored end-to-end | in preparation |
+| TEMPO interspersed mask-only / no-cloud controls (Suppl. Fig. S8) | all 36 metrics to 4 decimals (primary 0.4456/0.4323/0.7667; no-cloud 0.3934/0.3893/0.6947; mask-only 0.1369/0.1652/0.3836) | **validated** (`scripts/evaluate_tempo_controls.py`) |
+| CAMS single-species spot check (winner-map provenance) | released rmaps O3 row reproduced to numerical noise (median diff 6e-8, map corr 1.0000) | **validated** (`scripts/evaluate_cams_spot.py`) |
 
 ## Citation / licence
 
