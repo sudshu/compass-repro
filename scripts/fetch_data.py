@@ -35,6 +35,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--record", required=True)
     ap.add_argument("--only", default=None, choices=[None, "geoscf", "tempo"])
+    ap.add_argument("--full", action="store_true",
+                    help="also download the 14 GB full GEOS-CF archive "
+                         "(default: the 3.5 GB stride-4 standard bundle)")
     args = ap.parse_args()
 
     import json
@@ -44,6 +47,8 @@ def main() -> None:
     staging.mkdir(parents=True, exist_ok=True)
 
     files = rec["files"]
+    if not args.full:
+        files = [f for f in files if f["key"] != "compass_geoscf_eval_full.tar"]
     if args.only:
         files = [f for f in files
                  if args.only in f["key"] or f["key"] in ("SHA256SUMS", "MANIFEST.json")]

@@ -1,0 +1,23 @@
+{
+  "description": "Seed-42 pooled anomaly-correlation on the stride-4 subset of the temporally blocked archive (every 4th snapshot; 185 of 738; Aug/Oct/Dec 2020). This is the STANDARD Zenodo bundle (~3.5 GB vs 14 GB full): each target agrees with the full-set audited value to within 0.005 (v500 0.8065 vs 0.8067). Run with: python scripts/evaluate_geoscf.py --eval-dir data/geoscf/eval_stride4 --expected expected/geoscf_stride4.json",
+  "seed": 42,
+  "n_files": 185,
+  "stride_of_full_archive": 4,
+  "pooled_anom_acc": {
+    "u10": 0.7439,
+    "v10": 0.7893,
+    "u500": 0.7613,
+    "v500": 0.8065,
+    "pblh": 0.7217
+  },
+  "full_set_reference": {
+    "n_files": 738,
+    "pooled_anom_acc": {
+      "u10": 0.7443,
+      "v10": 0.7888,
+      "u500": 0.7618,
+      "v500": 0.8067,
+      "pblh": 0.7171
+    }
+  }
+}

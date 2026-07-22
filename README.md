@@ -31,16 +31,25 @@ PASS against `expected/geoscf_subset.json` (reference values produced by the
 original analysis pipeline; the packaged pipeline reproduces them to 4
 decimal places).
 
-## Full evaluation (reproduces the paper's headline table)
+## Standard evaluation (Zenodo data, reviewer-sized)
 
 ```bash
-python scripts/fetch_data.py geoscf          # downloads ~13 GB from Zenodo
-python scripts/evaluate_geoscf.py --eval-dir data/geoscf/eval_full \
-    --expected expected/geoscf_full.json
+python scripts/fetch_data.py --record <zenodo-id>       # ~12 GB (stride-4 GEOS-CF + TEMPO)
+python scripts/evaluate_geoscf.py --eval-dir data/geoscf/eval_stride4 \
+    --expected expected/geoscf_stride4.json             # ~2 min on GPU
+python scripts/evaluate_tempo.py                        # ~4 min on GPU
+python scripts/evaluate_winner.py                       # seconds (Fig. 4 partition)
 ```
 
-Headline: 500-hPa meridional wind (v500) pooled ACC **0.81** vs **0.45** for
-24-h persistence (3-seed mean; per-seed values in `expected/`).
+- GEOS-CF standard bundle = every 4th blocked snapshot (185 of 738, 3.5 GB);
+  each target agrees with the full-set audited value to within 0.005
+  (v500 0.8065 vs 0.8067). The full 738-snapshot archive (14 GB) is optional
+  (`--full`) and reproduces the audited table exactly
+  (`expected/geoscf_full.json`).
+- Headline: 500-hPa meridional wind (v500) pooled ACC **0.81** vs **0.45**
+  for 24-h persistence (3-seed mean; per-seed values in `expected/`).
+- TEMPO: all nine Fig. 5a numbers (primary / clock / scan-hour-conditioned)
+  reproduce to 4 decimals (`expected/tempo_intersp.json`).
 
 ## What is in the data
 
