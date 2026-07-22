@@ -38,6 +38,7 @@ def main() -> None:
     ap.add_argument("--expected", default=str(PKG / "expected/geoscf_subset.json"))
     ap.add_argument("--device", default=None, choices=[None, "cuda", "mps", "cpu"])
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--stride", type=int, default=1, help="take every Nth snapshot")
     args = ap.parse_args()
 
     device = get_device(args.device)
@@ -45,13 +46,16 @@ def main() -> None:
 
     t0 = time.time()
     res = evaluate(Path(args.eval_dir), Path(args.weights), Path(args.config),
-                   Path(args.clim), device, limit=args.limit)
+                   Path(args.clim), device, limit=args.limit, stride=args.stride)
     dt = time.time() - t0
     pooled = res["pooled_anom_acc"]
     print(f"\n{res['n_files']} snapshots evaluated in {dt:.0f} s on {device}")
 
     exp_path = Path(args.expected)
-    expected = json.loads(exp_path.read_text()) if exp_path.exists() else None
+    try:
+        expected = json.loads(exp_path.read_text())
+    except (OSError, ValueError):
+        expected = None
     if expected and expected.get("n_files") not in (None, res["n_files"]):
         print(f"\nNOTE: evaluated {res['n_files']} snapshots but the reference "
               f"was computed on {expected['n_files']} — PASS/FAIL not applicable.")

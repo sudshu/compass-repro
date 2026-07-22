@@ -102,9 +102,9 @@ def month_of(p: Path) -> int:
 # ------------------------------------------------------------------ evaluation
 def evaluate(eval_dir: Path, weights: Path, config: Path,
              clim_path: Path, device: torch.device, limit: int = 0,
-             progress: bool = True) -> dict:
+             stride: int = 1, progress: bool = True) -> dict:
     """Run the blocked evaluation for one seed; returns pooled + per-month ACC."""
-    files = sorted(Path(eval_dir).glob("geos_cf_*.npz"))
+    files = sorted(Path(eval_dir).glob("geos_cf_*.npz"))[::max(1, stride)]
     if limit:
         files = files[:limit]
     if not files:

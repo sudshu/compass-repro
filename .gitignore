@@ -13,3 +13,5 @@ __pycache__/
 # required for any run) — listed here as a reminder of what IS tracked:
 #   weights/*/  (30–67 MB per checkpoint)
 #   data/*/stats/  (4–40 MB)
+data/winner/geoscf/rmaps_*.npz
+data/winner/cams/rmaps_*.npz
