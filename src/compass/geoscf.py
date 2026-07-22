@@ -99,11 +99,88 @@ def month_of(p: Path) -> int:
     return int(p.stem.split("_")[2][4:6])  # geos_cf_YYYYMMDD_HH
 
 
+def parse_ts(p: Path):
+    from datetime import datetime
+    s = p.stem.split("_")  # geos_cf_YYYYMMDD_HH
+    return datetime.strptime(s[2] + s[3], "%Y%m%d%H")
+
+
+def baselines(eval_dir: Path, clim_path: Path, ws_clim_path: Path | None = None,
+              stride: int = 1, progress: bool = True) -> dict:
+    """24-h persistence anomaly ACC (components and, given ws_clim, wind speed).
+
+    Seed-independent: computed from the extracted truth fields alone,
+    verbatim convention from blocked_results_kit.py (708 pairs on the full
+    3-hourly archive; the t-24h partner must exist within the archive).
+    """
+    from collections import OrderedDict
+    from datetime import timedelta
+
+    files = sorted(Path(eval_dir).glob("geos_cf_*.npz"))[::max(1, stride)]
+    cl = np.load(clim_path)
+    clim = cl["clim"].astype(np.float32)
+    anom_std = cl["anom_std"].astype(np.float32)
+    lat0 = cl["lat"].astype(np.float32)
+    band = np.abs(lat0) <= LAT_MAX_DEG
+    clim_b = clim[:, band]
+    sd = anom_std[:, None, None]
+
+    ws = None
+    if ws_clim_path is not None and Path(ws_clim_path).exists():
+        w = np.load(ws_clim_path)
+        ws = {"ws_sfc": w["ws_sfc"].astype(np.float32)[band],
+              "ws_500": w["ws_500"].astype(np.float32)[band]}
+
+    ts_to_idx = {parse_ts(f): i for i, f in enumerate(files)}
+    cache: OrderedDict[int, np.ndarray] = OrderedDict()
+
+    def met_band(i: int) -> np.ndarray:
+        if i in cache:
+            return cache[i]
+        m = np.load(files[i])["met"].astype(np.float32)[:, band]
+        cache[i] = m
+        while len(cache) > 12:          # partner is <= 8 steps back (3-hourly)
+            cache.popitem(last=False)
+        return m
+
+    pers = {t: RAccum() for t in TARGET_NAMES}
+    pers_ws = {k: RAccum() for k in ("ws_sfc", "ws_500")}
+    n_pairs = 0
+    for i, f in enumerate(files):
+        j = ts_to_idx.get(parse_ts(f) - timedelta(hours=24))
+        if j is None:
+            continue
+        n_pairs += 1
+        cur, prev = met_band(i), met_band(j)
+        true_anom = (cur - clim_b) / (sd + 1e-8)
+        prev_anom = (prev - clim_b) / (sd + 1e-8)
+        for c, t in enumerate(TARGET_NAMES):
+            pers[t].add(prev_anom[c], true_anom[c])
+        if ws is not None:
+            for k, (a, b) in {"ws_sfc": (0, 1), "ws_500": (2, 3)}.items():
+                pers_ws[k].add(np.hypot(prev[a], prev[b]) - ws[k],
+                               np.hypot(cur[a], cur[b]) - ws[k])
+        if progress and n_pairs % 100 == 0:
+            print(f"  [{n_pairs} pairs]", flush=True)
+
+    out = {"n_pairs": n_pairs,
+           "persistence_anom_acc": {t: pers[t].r() for t in TARGET_NAMES}}
+    if ws is not None:
+        out["persistence_speed_anom_acc"] = {k: pers_ws[k].r() for k in pers_ws}
+    return out
+
+
 # ------------------------------------------------------------------ evaluation
 def evaluate(eval_dir: Path, weights: Path, config: Path,
              clim_path: Path, device: torch.device, limit: int = 0,
-             stride: int = 1, progress: bool = True) -> dict:
-    """Run the blocked evaluation for one seed; returns pooled + per-month ACC."""
+             stride: int = 1, ws_clim_path: Path | None = None,
+             progress: bool = True) -> dict:
+    """Run the blocked evaluation for one seed; returns pooled + per-month ACC.
+
+    With ``ws_clim_path``, also computes the Fig. 3a wind-SPEED pooled ACC
+    (speed anomaly = hypot of the raw fields minus the training-split
+    wind-speed climatology; blocked_results_kit.py convention).
+    """
     files = sorted(Path(eval_dir).glob("geos_cf_*.npz"))[::max(1, stride)]
     if limit:
         files = files[:limit]
@@ -132,8 +209,17 @@ def evaluate(eval_dir: Path, weights: Path, config: Path,
                          dropout_rate=cfg.get("dropout_rate", 0.05))
     load_checkpoint(model, weights, device)
 
+    ws = None
+    if ws_clim_path is not None and Path(ws_clim_path).exists():
+        w = np.load(ws_clim_path)
+        ws = {"ws_sfc": w["ws_sfc"].astype(np.float32)[lat_mask_rows],
+              "ws_500": w["ws_500"].astype(np.float32)[lat_mask_rows]}
+    clim_b = clim[:, lat_mask_rows]
+    sd = anom_std[:, None, None]
+
     acc_all = {t: RAccum() for t in TARGET_NAMES}
     acc_mon = {m: {t: RAccum() for t in TARGET_NAMES} for m in MONTH_NAMES}
+    acc_ws = {k: RAccum() for k in ("ws_sfc", "ws_500")}
 
     for fi, fp in enumerate(files):
         x, met = load_extracted(fp, gas_indices, sin_lat_map, hgt_norm, use_sfc)
@@ -144,6 +230,13 @@ def evaluate(eval_dir: Path, weights: Path, config: Path,
             acc_all[t].add(pred_anom[c][lat_mask_rows], true_anom[c][lat_mask_rows])
             if m in acc_mon:
                 acc_mon[m][t].add(pred_anom[c][lat_mask_rows], true_anom[c][lat_mask_rows])
+        if ws is not None:
+            pa_b = pred_anom[:, lat_mask_rows]
+            met_b = met[:, lat_mask_rows]
+            pred_raw_b = clim_b + sd * pa_b
+            for k, (a, b) in {"ws_sfc": (0, 1), "ws_500": (2, 3)}.items():
+                acc_ws[k].add(np.hypot(pred_raw_b[a], pred_raw_b[b]) - ws[k],
+                              np.hypot(met_b[a], met_b[b]) - ws[k])
         if progress and ((fi + 1) % 25 == 0 or fi + 1 == len(files)):
             print(f"  [{fi + 1}/{len(files)}] {fp.name}  "
                   f"running v500 r={acc_all['v500'].r():.4f}", flush=True)
@@ -151,5 +244,8 @@ def evaluate(eval_dir: Path, weights: Path, config: Path,
     pooled = {t: acc_all[t].r() for t in TARGET_NAMES}
     per_month = {MONTH_NAMES[m]: {t: acc_mon[m][t].r() for t in TARGET_NAMES}
                  for m in MONTH_NAMES if acc_mon[m][TARGET_NAMES[0]].n > 0}
-    return {"pooled_anom_acc": pooled, "per_month": per_month,
-            "n_files": len(files)}
+    out = {"pooled_anom_acc": pooled, "per_month": per_month,
+           "n_files": len(files)}
+    if ws is not None:
+        out["speed_pooled_anom_acc"] = {k: acc_ws[k].r() for k in acc_ws}
+    return out

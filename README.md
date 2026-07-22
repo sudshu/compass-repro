@@ -2,8 +2,8 @@
 
 Code, model weights and extracted evaluation data for:
 
-> **Neural networks infer winds and boundary-layer height from single
-> atmospheric composition scenes.** Sudhanshu Pandey, NASA Jet Propulsion
+> **Recovering atmospheric dynamics from atmospheric composition snapshots
+> using machine learning.** Sudhanshu Pandey, NASA Jet Propulsion
 > Laboratory / Caltech. (Manuscript under review.)
 
 This package lets a reviewer or reader **re-run the paper's evaluations from
@@ -99,9 +99,12 @@ expected/            reference numbers the run scripts check against
 |---|---|---|
 | GEOS-CF blocked (headline) | all 5 targets to 4 decimals (v500 0.8067; paper 0.81 vs persistence 0.45) | **validated** (738 snapshots, seed 42; s43/s44 via Zenodo) |
 | TEMPO → HRRR (Fig. 5a) | all 9 numbers to 4 decimals: network 0.4485/0.4775/0.7150, clock 0.2192/0.1647/0.6310, conditioned 0.4041/0.4549/0.5623 | **validated** (1,227 test scans; `scripts/evaluate_tempo.py`) |
-| CAMS winner maps / tracer partition | lifetime partition | in preparation |
+| Winner maps / tracer partition (Fig. 4) | all eight partition percentages exact (GEOS-CF NO2-PBLH 28%, O3-500hPa 56%, HCHO-PBLH 41%; CAMS O3-500hPa 66%, NO2-PBLH 26%, ...) | **validated** (`scripts/evaluate_winner.py`, from the released per-gas ACC stacks; single-species re-inference spot check in preparation) |
+| GEOS-CF wind-speed ACC + persistence (Fig. 3a) | ws500 0.71 vs persistence 0.59 | validation running (seed 42; `--baselines`) |
 | Water-vapour control | — | in preparation |
 | WRF-Chem plume control | held-out-source generalisation | in preparation |
+| TEMPO interspersed mask-only / no-cloud controls (Suppl. Fig. S8) | 0.39/0.39/0.70 no-cloud etc. | not yet covered (weights on remote host) |
+| Virtual-station analysis (Suppl. Fig. S10) | station-mean ACC 0.54 | not yet covered (added to the manuscript 2026-07-21) |
 
 ## Citation / licence
 

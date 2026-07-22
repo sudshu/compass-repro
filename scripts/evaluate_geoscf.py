@@ -35,10 +35,16 @@ def main() -> None:
     ap.add_argument("--weights", default=str(PKG / "weights/geoscf/s42_best.pt"))
     ap.add_argument("--config", default=str(PKG / "weights/geoscf/s42_config.json"))
     ap.add_argument("--clim", default=str(PKG / "data/geoscf/stats/clim_train.npz"))
+    ap.add_argument("--ws-clim", default=str(PKG / "data/geoscf/stats/ws_clim.npz"),
+                    help="training-split wind-speed climatology (enables the "
+                         "Fig. 3a speed ACC; skipped if the file is absent)")
     ap.add_argument("--expected", default=str(PKG / "expected/geoscf_subset.json"))
     ap.add_argument("--device", default=None, choices=[None, "cuda", "mps", "cpu"])
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--stride", type=int, default=1, help="take every Nth snapshot")
+    ap.add_argument("--baselines", action="store_true",
+                    help="also compute the seed-independent 24-h persistence "
+                         "baseline (components + wind speed) from the truth fields")
     args = ap.parse_args()
 
     device = get_device(args.device)
@@ -46,7 +52,12 @@ def main() -> None:
 
     t0 = time.time()
     res = evaluate(Path(args.eval_dir), Path(args.weights), Path(args.config),
-                   Path(args.clim), device, limit=args.limit, stride=args.stride)
+                   Path(args.clim), device, limit=args.limit, stride=args.stride,
+                   ws_clim_path=Path(args.ws_clim))
+    if args.baselines:
+        from compass.geoscf import baselines
+        res["baselines"] = baselines(Path(args.eval_dir), Path(args.clim),
+                                     Path(args.ws_clim), stride=args.stride)
     dt = time.time() - t0
     pooled = res["pooled_anom_acc"]
     print(f"\n{res['n_files']} snapshots evaluated in {dt:.0f} s on {device}")
@@ -64,15 +75,31 @@ def main() -> None:
     print(f"\n{'target':<7s} {'reproduced':>11s} {'reported':>9s} {'status':>7s}")
     print("-" * 40)
     ok = True
-    for t in TARGET_NAMES:
-        rep = pooled[t]
-        if expected and t in expected.get("pooled_anom_acc", {}):
-            ref = expected["pooled_anom_acc"][t]
+
+    def check(name, rep, ref_block):
+        nonlocal ok
+        if expected and ref_block and name in ref_block:
+            ref = ref_block[name]
             good = abs(rep - ref) <= TOL
             ok &= good
-            print(f"{t:<7s} {rep:>11.4f} {ref:>9.4f} {'PASS' if good else 'FAIL':>7s}")
+            print(f"{name:<7s} {rep:>11.4f} {ref:>9.4f} {'PASS' if good else 'FAIL':>7s}")
         else:
-            print(f"{t:<7s} {rep:>11.4f} {'--':>9s} {'--':>7s}")
+            print(f"{name:<7s} {rep:>11.4f} {'--':>9s} {'--':>7s}")
+
+    for t in TARGET_NAMES:
+        check(t, pooled[t], expected.get("pooled_anom_acc", {}) if expected else None)
+    if "speed_pooled_anom_acc" in res:
+        print("wind speed (Fig. 3a convention):")
+        for k, v in res["speed_pooled_anom_acc"].items():
+            check(k, v, expected.get("speed_pooled_anom_acc", {}) if expected else None)
+    if "baselines" in res:
+        b = res["baselines"]
+        eb = expected.get("baselines", {}) if expected else {}
+        print(f"24-h persistence ({b['n_pairs']} pairs):")
+        for t in TARGET_NAMES:
+            check(t, b["persistence_anom_acc"][t], eb.get("persistence_anom_acc"))
+        for k, v in b.get("persistence_speed_anom_acc", {}).items():
+            check(k, v, eb.get("persistence_speed_anom_acc"))
     if expected:
         print("\n" + ("ALL CHECKS PASSED" if ok else "SOME CHECKS FAILED"))
         sys.exit(0 if ok else 1)

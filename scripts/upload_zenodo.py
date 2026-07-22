@@ -28,13 +28,13 @@ API = "https://zenodo.org/api"
 METADATA = {
     "metadata": {
         "title": ("COMPASS reproducibility data: extracted evaluation variables and "
-                  "model weights for 'Neural networks infer atmospheric dynamics "
-                  "from single-scene atmospheric composition'"),
+                  "model weights for 'Recovering atmospheric dynamics from "
+                  "atmospheric composition snapshots using machine learning'"),
         "upload_type": "dataset",
         "description": (
             "<p>Extracted evaluation data and trained model weights accompanying the "
-            "manuscript <i>Neural networks infer atmospheric dynamics from single-scene "
-            "atmospheric composition</i> (S. Pandey). Together with the code repository, "
+            "manuscript <i>Recovering atmospheric dynamics from atmospheric composition "
+            "snapshots using machine learning</i> (S. Pandey). Together with the code repository, "
             "this record lets a reader re-run the paper's evaluations from the released "
             "weights on the released data and reproduce the reported anomaly-correlation "
             "metrics.</p>"

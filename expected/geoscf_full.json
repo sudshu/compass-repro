@@ -1,5 +1,5 @@
 {
-  "description": "Seed-42 pooled anomaly-correlation on the full temporally blocked archive (738 three-hourly snapshots; Aug/Oct/Dec 2020, months absent from training). Values from the paper's audited evaluation (runs/geos_cf/blocked_eval_aug_oct_dec.json). Paper headline (3-seed mean): v500 ACC 0.808 vs 24-h persistence 0.447. Per-seed values: s42 below; s43 v500 0.8094, s44 v500 0.8079.",
+  "description": "Seed-42 pooled anomaly-correlation on the full temporally blocked archive (738 three-hourly snapshots; Aug/Oct/Dec 2020, months absent from training). Values from the paper's audited evaluation (runs/geos_cf/blocked_eval_aug_oct_dec.json). Paper headline (3-seed mean): v500 ACC 0.808 vs 24-h persistence 0.447. Per-seed values: s42 below; s43 v500 0.8094, s44 v500 0.8079. Extended with the seed-42 wind-speed pooled ACC (Fig. 3a convention: speed anomaly vs training-split ws climatology; manuscript reports the 3-seed means 0.56/0.71) and the seed-independent 24-h persistence baselines (components + speed; manuscript 0.59 for 500-hPa wind speed persistence, 0.45 for v500).",
   "seed": 42,
   "n_files": 738,
   "pooled_anom_acc": {
@@ -8,5 +8,22 @@
     "u500": 0.7618,
     "v500": 0.8067,
     "pblh": 0.7171
+  },
+  "speed_pooled_anom_acc": {
+    "ws_sfc": 0.563083,
+    "ws_500": 0.714029
+  },
+  "baselines": {
+    "persistence_anom_acc": {
+      "u10": 0.541898,
+      "v10": 0.403225,
+      "u500": 0.678982,
+      "v500": 0.4473,
+      "pblh": 0.711199
+    },
+    "persistence_speed_anom_acc": {
+      "ws_sfc": 0.42751,
+      "ws_500": 0.593135
+    }
   }
 }
