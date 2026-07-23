@@ -34,7 +34,7 @@ decimal places).
 ## Standard evaluation (Zenodo data, reviewer-sized)
 
 ```bash
-python scripts/fetch_data.py --record <zenodo-id>       # ~12 GB (stride-4 GEOS-CF + TEMPO)
+python scripts/fetch_data.py --record 21516391       # ~12 GB (stride-4 GEOS-CF + TEMPO)
 python scripts/evaluate_geoscf.py --eval-dir data/geoscf/eval_stride4 \
     --expected expected/geoscf_stride4.json             # ~2 min on GPU
 python scripts/evaluate_tempo.py                        # ~4 min on GPU
@@ -107,7 +107,7 @@ expected/            reference numbers the run scripts check against
 | Virtual-station analysis (Suppl. Fig. S10) | station-mean PBLH ACC 0.5366 → 0.54 | **validated** (evidence tier) |
 | TEMPO interspersed mask-only / no-cloud controls (Suppl. Fig. S8) | all 36 metrics to 4 decimals (primary 0.4456/0.4323/0.7667; no-cloud 0.3934/0.3893/0.6947; mask-only 0.1369/0.1652/0.3836) | **validated** (`scripts/evaluate_tempo_controls.py`) |
 | CAMS single-species spot check (winner-map provenance) | released rmaps O3 row reproduced to numerical noise (median diff 6e-8, map corr 1.0000) | **validated** (`scripts/evaluate_cams_spot.py`) |
-| Trace-gas-value ablation (manuscript v1.3, Suppl. Fig. S8) | 0.3677/0.3633/0.6551 → paper 0.37/0.36/0.66 | validation running (`--mode tracegas`) |
+| Trace-gas-value ablation (manuscript v1.3, Suppl. Fig. S8) | 0.3676/0.3633/0.6551 → paper 0.37/0.36/0.66 — all 12 metrics PASS | **validated** (`scripts/evaluate_tempo_controls.py --mode tracegas`) |
 
 ## Citation / licence
 
