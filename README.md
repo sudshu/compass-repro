@@ -98,14 +98,16 @@ expected/            reference numbers the run scripts check against
 | System | Result verified | Status |
 |---|---|---|
 | GEOS-CF blocked (headline) | all 5 targets to 4 decimals (v500 0.8067; paper 0.81 vs persistence 0.45) | **validated** (738 snapshots, seed 42; s43/s44 via Zenodo) |
-| TEMPO → HRRR (Fig. 5a) | all 9 numbers to 4 decimals: network 0.4485/0.4775/0.7150, clock 0.2192/0.1647/0.6310, conditioned 0.4041/0.4549/0.5623 | **validated** (1,227 test scans; `scripts/evaluate_tempo.py`) |
-| Winner maps / tracer partition (Fig. 4) | all eight partition percentages exact (GEOS-CF NO2-PBLH 28%, O3-500hPa 56%, HCHO-PBLH 41%; CAMS O3-500hPa 66%, NO2-PBLH 26%, ...) | **validated** (`scripts/evaluate_winner.py`, from the released per-gas ACC stacks; single-species re-inference spot check in preparation) |
+| TEMPO → HRRR headline (conventional pooled ACC, manuscript v1.2+) | 0.4456/0.4323/0.7667 → paper 0.43–0.45 / 0.77 | **validated** (`scripts/evaluate_tempo_controls.py --mode primary`) |
+| TEMPO diurnal metrics (batch-mean; clock + scan-hour-conditioned) | all 9 numbers to 4 decimals: network 0.4485/0.4775/0.7150, clock 0.2192/0.1647/0.6310, conditioned 0.4041/0.4549/0.5623 | **validated** (1,227 test scans; `scripts/evaluate_tempo.py`) |
+| Winner maps / tracer partition (Fig. 4, manuscript v1.2+ wind-speed stacks) | all five share claims exact (GEOS-CF HCHO 46% surface / 45% PBLH, O3 48% 500-hPa; NO2 PBLH 30% GEOS-CF vs 26% CAMS; common-6, ACC>=0.2 analysed-area floor) | **validated** (`scripts/evaluate_winner.py`; legacy zonal stacks + expected retained) |
 | GEOS-CF wind-speed ACC + persistence (Fig. 3a) | ws500 0.7140 vs persistence 0.5931, + all components incl. v500 persistence 0.4473 — 14/14 to 4 decimals | **validated** (seed 42; `--baselines`) |
 | Water-vapour control (Suppl. Fig. S6) | all lead shares exact (trace gases 78% of PBLH land; WV 84% ocean, 81% ws10 land) | **validated** (evidence tier: `scripts/evaluate_si_evidence.py`) |
 | WRF-Chem plume control (Suppl. Fig. S7) | held-out at training skill; 0.01x–1000x invariance; fixed-magnitude collapse; floors | **validated** (evidence tier) |
 | Virtual-station analysis (Suppl. Fig. S10) | station-mean PBLH ACC 0.5366 → 0.54 | **validated** (evidence tier) |
 | TEMPO interspersed mask-only / no-cloud controls (Suppl. Fig. S8) | all 36 metrics to 4 decimals (primary 0.4456/0.4323/0.7667; no-cloud 0.3934/0.3893/0.6947; mask-only 0.1369/0.1652/0.3836) | **validated** (`scripts/evaluate_tempo_controls.py`) |
 | CAMS single-species spot check (winner-map provenance) | released rmaps O3 row reproduced to numerical noise (median diff 6e-8, map corr 1.0000) | **validated** (`scripts/evaluate_cams_spot.py`) |
+| Trace-gas-value ablation (manuscript v1.3, Suppl. Fig. S8) | 0.3677/0.3633/0.6551 → paper 0.37/0.36/0.66 | validation running (`--mode tracegas`) |
 
 ## Citation / licence
 
