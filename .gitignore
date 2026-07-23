@@ -16,3 +16,4 @@ __pycache__/
 data/winner/geoscf/rmaps_*.npz
 data/winner/cams/rmaps_*.npz
 data/cams_spot/cams_spot_o3pw_*.npz
+weights/cams_o3pw_winds500/checkpoints/best.pt   # 119 MB > GitHub limit -> Zenodo weights tar
