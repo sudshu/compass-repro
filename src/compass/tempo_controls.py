@@ -36,6 +36,9 @@ MODE_KEYS = {
     "primary": EXTRA_ALL,
     "nocloud": EXTRA_ALL[:4],
     "maskonly": (),
+    # 9-ch trace-gas-value ablation (manuscript v1.3): the four gas products +
+    # validity mask + statics; UV aerosol index and both cloud channels withheld
+    "tracegas": ("o3_col", "so2_index", "hcho_col"),
 }
 
 

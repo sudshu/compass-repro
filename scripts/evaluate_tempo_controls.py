@@ -25,7 +25,8 @@ from compass.tempo_controls import evaluate_mode, VARS   # noqa: E402
 
 TOL = 0.01
 RUN_DIRS = {"primary": "weights/tempo", "nocloud": "weights/tempo_nocloud",
-            "maskonly": "weights/tempo_maskonly"}
+            "maskonly": "weights/tempo_maskonly",
+            "tracegas": "weights/tempo_tracegas"}
 CHECK_KEYS = ("conventional_pooled_acc_full", "pooled_r_anom_full",
               "per_cell_wmedian_r_full", "conventional_pooled_acc_covered")
 
@@ -36,7 +37,8 @@ def main() -> None:
     ap.add_argument("--aux", default=str(PKG / "data/tempo/stats/static_aux.npz"))
     ap.add_argument("--clim", default=str(PKG / "data/tempo/stats/static_clim_interspersed.npz"))
     ap.add_argument("--expected", default=str(PKG / "expected/tempo_item20_reference.json"))
-    ap.add_argument("--mode", default=None, choices=[None, "primary", "nocloud", "maskonly"])
+    ap.add_argument("--mode", default=None,
+                    choices=[None, "primary", "nocloud", "maskonly", "tracegas"])
     ap.add_argument("--device", default=None, choices=[None, "cuda", "mps", "cpu"])
     ap.add_argument("--limit", type=int, default=0)
     args = ap.parse_args()

@@ -1,0 +1,12 @@
+{
+  "epochs": 60,
+  "batch": 128,
+  "lr": 0.0003,
+  "patches_per_snap_train": 80,
+  "patches_per_snap_eval": 16,
+  "depth": 3,
+  "base": 64,
+  "seed": 0,
+  "run_name": "v21_tracegas_intersp_s0",
+  "workers": 18
+}

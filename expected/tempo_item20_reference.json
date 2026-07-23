@@ -139,5 +139,38 @@
    "v10": 0.1832725703716278,
    "pblh": 0.26612046360969543
   }
+ },
+ "tracegas": {
+  "run": "20260723_035456_v21_tracegas_intersp_s0",
+  "mode": "tracegas",
+  "c_in": 9,
+  "n_test": 1227,
+  "best_epoch": 39,
+  "pooled_r_anom_full": {
+   "u10": 0.32721693705943383,
+   "v10": 0.3269366125172328,
+   "pblh": 0.50359678251677
+  },
+  "pooled_r_anom_covered": {
+   "u10": 0.36946417382934377,
+   "v10": 0.4006909322142778,
+   "pblh": 0.5208376850016431
+  },
+  "conventional_pooled_acc_full": {
+   "u10": 0.36765600104866913,
+   "v10": 0.36325331915959874,
+   "pblh": 0.6550604128401534
+  },
+  "per_cell_median_r_full": {
+   "u10": 0.33865517377853394,
+   "v10": 0.3496664762496948,
+   "pblh": 0.5747599601745605
+  },
+  "per_cell_median_r_covered": {
+   "u10": 0.3842891454696655,
+   "v10": 0.41641944646835327,
+   "pblh": 0.6439940333366394
+  },
+  "provenance": "tracegas_eval.json 2026-07-23 (az-ms run_tracegas_ablation.py; reproduce-primary gate passed exactly); day-block CI95 u10 [0.335,0.399] v10 [0.339,0.386] pblh [0.620,0.683]"
  }
 }

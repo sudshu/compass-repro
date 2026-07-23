@@ -25,12 +25,15 @@ TOL_ACC = 0.005
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--winner-dir", default=str(PKG / "data/winner"))
-    ap.add_argument("--expected", default=str(PKG / "expected/winner_shares.json"))
+    ap.add_argument("--winner-dir", default=str(PKG / "data/winner_wspd"),
+                    help="manuscript v1.2+ wind-speed stacks (default); pass "
+                         "data/winner + expected/winner_shares.json for the "
+                         "pre-v1.2 zonal-wind legacy stacks")
+    ap.add_argument("--expected", default=str(PKG / "expected/winner_shares_wspd.json"))
     args = ap.parse_args()
 
-    res = evaluate(Path(args.winner_dir))
     expected = json.loads(Path(args.expected).read_text())
+    res = evaluate(Path(args.winner_dir), acc_floor=expected.get("acc_floor"))
 
     ok = True
     for system in ("geoscf", "cams"):
