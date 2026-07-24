@@ -23,8 +23,13 @@ distinction.
 ```bash
 conda env create -f environment.yml
 conda activate compass-repro
-python scripts/evaluate_geoscf.py            # 16-snapshot subset shipped in-repo
+# smoke-subset data (292 MB) ships as a GitHub release asset, not in git:
+gh release download v0.1 --pattern compass_smoke_subset.tar && tar -xf compass_smoke_subset.tar
+python scripts/evaluate_geoscf.py            # 16-snapshot smoke subset
 ```
+
+(No GPU needed: `--device cpu` reproduces the same table in ~2 minutes; a fresh
+`environment.yml` install + CPU run was verified to match CUDA to 4 decimals.)
 
 Expected output: pooled anomaly-correlation (ACC) for the five targets with
 PASS against `expected/geoscf_subset.json` (reference values produced by the
