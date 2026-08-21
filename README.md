@@ -116,7 +116,8 @@ expected/            reference numbers the run scripts check against
 
 ## Citation / licence
 
-Code: MIT (see LICENSE — pending author confirmation). Data extracts derive
+Code: MIT (see LICENSE), Copyright (c) 2026 California Institute of
+Technology; government sponsorship acknowledged. Data extracts derive
 from NASA GMAO GEOS-CF (public), NASA TEMPO L3 (public), NOAA HRRR (public)
 and the Copernicus/CAMS reanalysis (attribution required); the extracts are
 redistributed for scientific verification with attribution to the original
